@@ -1,2 +1,2 @@
 # practicas-back-end
-Ejemplo sencillo de servicios Rest en java
+Ejemplo sencillo de servicios Rest en Java
