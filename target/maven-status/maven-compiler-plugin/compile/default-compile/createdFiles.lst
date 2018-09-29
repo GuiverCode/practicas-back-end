@@ -1,2 +1,4 @@
 com/guiver/webservice1/DepartmentService.class
+com/guiver/webservice1/model/Departments.class
 com/guiver/webservice1/RestAppConfig.class
+com/guiver/webservice1/model/Departments_.class
