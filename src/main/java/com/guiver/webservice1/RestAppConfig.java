@@ -20,6 +20,7 @@ public class RestAppConfig extends Application {
     public Set<Class<?>> getClasses() {
         Set<Class<?>> resources = new java.util.HashSet<>();
         resources.add(com.guiver.webservice1.DepartmentService.class);
+        resources.add(com.guiver.webservice1.EmployeeService.class);
         return resources;
     }
 }

@@ -1,2 +1,5 @@
-/home/guille/NetBeansProjects/webservice1/src/main/java/com/guiver/webservice1/RestAppConfig.java
-/home/guille/NetBeansProjects/webservice1/src/main/java/com/guiver/webservice1/DepartmentService.java
+/home/guille/Documentos/practicas-back-end/src/main/java/com/guiver/webservice1/model/Departments.java
+/home/guille/Documentos/practicas-back-end/src/main/java/com/guiver/webservice1/EmployeeService.java
+/home/guille/Documentos/practicas-back-end/src/main/java/com/guiver/webservice1/RestAppConfig.java
+/home/guille/Documentos/practicas-back-end/src/main/java/com/guiver/webservice1/DepartmentService.java
+/home/guille/Documentos/practicas-back-end/src/main/java/com/guiver/webservice1/model/Employees.java
