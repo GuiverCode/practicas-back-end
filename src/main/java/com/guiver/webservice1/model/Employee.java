@@ -36,21 +36,21 @@ import javax.xml.bind.annotation.XmlTransient;
  *
  * @author guille
  */
-@Entity
+@Entity(name = "Employee")
 @Table(name = "employees")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Employees.findAll", query = "SELECT e FROM Employees e")
-    , @NamedQuery(name = "Employees.findByEmployeeId", query = "SELECT e FROM Employees e WHERE e.employeeId = :employeeId")
-    , @NamedQuery(name = "Employees.findByFirstName", query = "SELECT e FROM Employees e WHERE e.firstName = :firstName")
-    , @NamedQuery(name = "Employees.findByLastName", query = "SELECT e FROM Employees e WHERE e.lastName = :lastName")
-    , @NamedQuery(name = "Employees.findByEmail", query = "SELECT e FROM Employees e WHERE e.email = :email")
-    , @NamedQuery(name = "Employees.findByPhoneNumber", query = "SELECT e FROM Employees e WHERE e.phoneNumber = :phoneNumber")
-    , @NamedQuery(name = "Employees.findByHireDate", query = "SELECT e FROM Employees e WHERE e.hireDate = :hireDate")
-    , @NamedQuery(name = "Employees.findBySalary", query = "SELECT e FROM Employees e WHERE e.salary = :salary")
-    , @NamedQuery(name = "Employees.findByCommissionPct", query = "SELECT e FROM Employees e WHERE e.commissionPct = :commissionPct")
-    , @NamedQuery(name = "Employees.findByJobId", query = "SELECT e FROM Employees e WHERE e.jobId = :jobId")})
-public class Employees implements Serializable {
+    @NamedQuery(name = "Employee.findAll", query = "SELECT e FROM Employee e")
+    , @NamedQuery(name = "Employee.findByEmployeeId", query = "SELECT e FROM Employee e WHERE e.employeeId = :employeeId")
+    , @NamedQuery(name = "Employee.findByFirstName", query = "SELECT e FROM Employee e WHERE e.firstName = :firstName")
+    , @NamedQuery(name = "Employee.findByLastName", query = "SELECT e FROM Employee e WHERE e.lastName = :lastName")
+    , @NamedQuery(name = "Employee.findByEmail", query = "SELECT e FROM Employee e WHERE e.email = :email")
+    , @NamedQuery(name = "Employee.findByPhoneNumber", query = "SELECT e FROM Employee e WHERE e.phoneNumber = :phoneNumber")
+    , @NamedQuery(name = "Employee.findByHireDate", query = "SELECT e FROM Employee e WHERE e.hireDate = :hireDate")
+    , @NamedQuery(name = "Employee.findBySalary", query = "SELECT e FROM Employee e WHERE e.salary = :salary")
+    , @NamedQuery(name = "Employee.findByCommissionPct", query = "SELECT e FROM Employee e WHERE e.commissionPct = :commissionPct")
+    , @NamedQuery(name = "Employee.findByJobId", query = "SELECT e FROM Employee e WHERE e.jobId = :jobId")})
+public class Employee implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -85,37 +85,42 @@ public class Employees implements Serializable {
     private BigDecimal salary;
     @Column(name = "commission_pct")
     private BigDecimal commissionPct;
-    
+    /* relacion unidireccional
+        @joinColumn - name: Es el nombre de la columna de clave foranea. La tabla en la que se encuantra depende del contexto.
+        - Si el join es para un mapeo OneToOne o ManyToOne, la columna de clave foranea está en la tabla de la entidad origen
+        - Si el join es para un mapeo unidereccional OneToMany, la columan de clave foranea está en la tabla de la entidad objetivo
+        @JoinColumn - referencedColumnName: El nombre de la columna referenciada por la clave foranea. 
+    */
     @JoinColumn(name = "department_id", referencedColumnName = "department_id")
     @ManyToOne(optional = false)
     private Departments department;
- 
-    
-    
-    
-    /*@Column(name = "department_id")
-    private Integer departmentId;*/
      
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 10)
     @Column(name = "job_id")
     private String jobId;
+    
+    /* relacion bidireccional
+        relacion padre: debe tener mappedBy que hace referencia al hijo
+        relacion hija: debe tener @ManytoOne al que se refiere mappedBy
+        @JoinColumn - referencedColumnName: El nombre de la columna referenciada por la clave foranea. 
+    */
     @OneToMany(mappedBy = "managerId")
-    private Collection<Employees> employeesCollection;
+    private Collection<Employee> employeesCollection;
     @JoinColumn(name = "manager_id", referencedColumnName = "employee_id")
     @ManyToOne
-    private Employees managerId;
+    private Employee managerId;
    
 
-    public Employees() {
+    public Employee() {
     }
 
-    public Employees(Integer employeeId) {
+    public Employee(Integer employeeId) {
         this.employeeId = employeeId;
     }
 
-    public Employees(Integer employeeId, String lastName, String email, Date hireDate, String jobId) {
+    public Employee(Integer employeeId, String lastName, String email, Date hireDate, String jobId) {
         this.employeeId = employeeId;
         this.lastName = lastName;
         this.email = email;
@@ -197,7 +202,7 @@ public class Employees implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Employees> getEmployeesCollection() {
+    public Collection<Employee> getEmployeesCollection() {
         return employeesCollection;
     }
 
@@ -210,15 +215,15 @@ public class Employees implements Serializable {
         this.department = department;
     }
 
-    public void setEmployeesCollection(Collection<Employees> employeesCollection) {
+    public void setEmployeesCollection(Collection<Employee> employeesCollection) {
         this.employeesCollection = employeesCollection;
     }
 
-    public Employees getManagerId() {
+    public Employee getManagerId() {
         return managerId;
     }
 
-    public void setManagerId(Employees managerId) {
+    public void setManagerId(Employee managerId) {
         this.managerId = managerId;
     }
 
@@ -232,10 +237,10 @@ public class Employees implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Employees)) {
+        if (!(object instanceof Employee)) {
             return false;
         }
-        Employees other = (Employees) object;
+        Employee other = (Employee) object;
         if ((this.employeeId == null && other.employeeId != null) || (this.employeeId != null && !this.employeeId.equals(other.employeeId))) {
             return false;
         }

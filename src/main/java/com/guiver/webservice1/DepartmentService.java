@@ -74,6 +74,7 @@ public class DepartmentService {
         Departments department = (Departments) query.getSingleResult();*/
         return entityManager.find(Departments.class, id);
       }
+
     
     @POST
     @Consumes(MediaType.APPLICATION_JSON)

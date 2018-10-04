@@ -1,7 +1,7 @@
 package com.guiver.webservice1;
 
 import com.guiver.webservice1.model.Departments;
-import com.guiver.webservice1.model.Employees;
+import com.guiver.webservice1.model.Employee;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -18,6 +18,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
@@ -31,12 +32,12 @@ public class EmployeeService {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<EmployeesDto> findAllEmployees() {
-        CriteriaQuery cq = entityManager.getCriteriaBuilder().createQuery(Employees.class);
-        cq.select(cq.from(Employees.class));
-        List<Employees> employees = entityManager.createQuery(cq).getResultList();
+        CriteriaQuery cq = entityManager.getCriteriaBuilder().createQuery(Employee.class);
+        cq.select(cq.from(Employee.class));
+        List<Employee> employees = entityManager.createQuery(cq).getResultList();
         List<EmployeesDto> employeesDto = new ArrayList<>();
 
-        for (Employees employee : employees) {
+        for (Employee employee : employees) {
             EmployeesDto employeeDto = new EmployeesDto();
             employeeDto.employeeId = employee.getEmployeeId();
             employeeDto.firtsName = employee.getFirstName();
@@ -59,10 +60,25 @@ public class EmployeeService {
         return employeesDto;
     }
     
+        
+    /*
+        retorna los empleados de un departamento
+    */
+    @GET
+    @Path("/department/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Employee> findEmployeesByDepartment(@PathParam("id") Integer id){
+        List<Employee> employees = 
+                entityManager.createQuery("select e from Employee e WHERE e.department.departmentId = :id", Employee.class)
+                .setParameter("id", id)
+                .getResultList();
+        return employees;
+    }
+    
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public void createEmployee(EmployeesDto employesDto){
-        Employees newEmployee = new Employees();
+        Employee newEmployee = new Employee();
         
         newEmployee.setEmail(employesDto.email);
         newEmployee.setFirstName(employesDto.firtsName);
@@ -73,7 +89,7 @@ public class EmployeeService {
         newEmployee.setPhoneNumber(employesDto.phoneNumber);
         newEmployee.setJobId(employesDto.jobId);
         newEmployee.setDepartment(entityManager.find(Departments.class, employesDto.departmentId));
-        newEmployee.setManagerId(entityManager.find(Employees.class, employesDto.managerId));
+        newEmployee.setManagerId(entityManager.find(Employee.class, employesDto.managerId));
         
         entityManager.persist(newEmployee);
         
