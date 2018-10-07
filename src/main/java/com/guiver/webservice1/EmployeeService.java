@@ -22,12 +22,23 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-@Path("employees")
+@Path("employee")
 @Stateless
 public class EmployeeService {
 
     @PersistenceContext(unitName = "com.guiver_webservice1_war_1.0-SNAPSHOTPU")
     private EntityManager entityManager;
+    
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("{id}")
+    public Employee findById(@PathParam("id") Integer id){
+        Employee employee = entityManager
+                .createNamedQuery("Employee.findByEmployeeId", Employee.class)
+                .setParameter("employeeId", id)
+                .getSingleResult();
+        return employee;
+    }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)

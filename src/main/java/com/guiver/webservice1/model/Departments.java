@@ -12,8 +12,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -45,8 +47,22 @@ public class Departments implements Serializable {
     @Size(min = 1, max = 30)
     @Column(name = "department_name")
     private String departmentName;
+    
     @Column(name = "manager_id")
     private Integer managerId;
+    
+     /*@JoinColumn(name="manager_id", referencedColumnName = "employee_id")
+     @OneToOne(optional = false)
+     private Employee manager;
+
+    public Employee getManager() {
+        return manager;
+    }
+
+    public void setManager(Employee manager) {
+        this.manager = manager;
+    }*/
+    
     @Column(name = "location_id")
     private Integer locationId;
 

@@ -18,6 +18,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 @Path("departments")
 @Stateless
@@ -92,9 +93,14 @@ public class DepartmentService {
     
     @DELETE
     @Path("{id}")
-    public void deleteDepartment(@PathParam("id") Integer id){
+    public Response deleteDepartment(@PathParam("id") Integer id){
         Departments entity = entityManager.find(Departments.class, id);
+        if (entity == null) {
+            return Response.status(Response.Status.NOT_FOUND).entity
+        ("Entity not found for: " + id).build();
+        }
         entityManager.remove(entity);
+        return Response.status(Response.Status.OK).build();
     }
 }
 
