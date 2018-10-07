@@ -1,6 +1,10 @@
 com/guiver/webservice1/EmployeeService.class
-com/guiver/webservice1/model/Departments.class
-com/guiver/webservice1/model/Departments_.class
+com/guiver/webservice1/model/Employee_.class
+com/guiver/webservice1/exceptions/DepartmentNotFoundException.class
+com/guiver/webservice1/model/Department_.class
+com/guiver/webservice1/model/Employee.class
+com/guiver/webservice1/model/Department.class
 com/guiver/webservice1/DepartmentService.class
+com/guiver/webservice1/exceptions/DepartmentNotFoundExceptionMapper.class
 com/guiver/webservice1/RestAppConfig.class
 com/guiver/webservice1/EmployeesDto.class

@@ -21,6 +21,7 @@ public class RestAppConfig extends Application {
         Set<Class<?>> resources = new java.util.HashSet<>();
         resources.add(com.guiver.webservice1.DepartmentService.class);
         resources.add(com.guiver.webservice1.EmployeeService.class);
+        resources.add(com.guiver.webservice1.exceptions.EntityNotFoundExceptionMapper.class);
         return resources;
     }
 }

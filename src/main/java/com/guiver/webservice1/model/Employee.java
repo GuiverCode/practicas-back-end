@@ -93,7 +93,7 @@ public class Employee implements Serializable {
     */
     @JoinColumn(name = "department_id", referencedColumnName = "department_id")
     @ManyToOne(optional = false)
-    private Departments department;
+    private Department department;
      
     @Basic(optional = false)
     @NotNull
@@ -207,11 +207,11 @@ public class Employee implements Serializable {
     }
 
     //@XmlTransient
-    public Departments getDepartment() {
+    public Department getDepartment() {
         return department;
     }
 
-    public void setDepartment(Departments department) {
+    public void setDepartment(Department department) {
         this.department = department;
     }
 
