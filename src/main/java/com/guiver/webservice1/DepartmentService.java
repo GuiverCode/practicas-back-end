@@ -1,14 +1,11 @@
 package com.guiver.webservice1;
 
-import com.guiver.webservice1.model.Departments;
+import com.guiver.webservice1.model.Department;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -17,10 +14,13 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
+import com.guiver.webservice1.exceptions.EntityNotFoundException;
 
-@Path("departments")
+@Path("department")
 @Stateless
 public class DepartmentService {
     //inyecta una instancia del  entity manager
@@ -29,80 +29,83 @@ public class DepartmentService {
     
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Departments> findAllDepartments(){
-        /*TypedQuery<Departments> query = entityManager.createNamedQuery("Departments.findAll", Departments.class);
+    public List<Department> findAllDepartments(){
+        /*TypedQuery<Departments> query = entityManager.createNamedQuery("Department.findAll", Department.class);
         List<Departments> departments =query.getResultList();
         return departments;*/
         
        CriteriaQuery cq = entityManager.getCriteriaBuilder().createQuery();
-       cq.select(cq.from(Departments.class));
-       List<Departments> departments = entityManager.createQuery(cq).getResultList();
+       cq.select(cq.from(Department.class));
+       List<Department> departments = entityManager.createQuery(cq).getResultList();
        return departments;
     }
 
    /* @GET
     @Path("{name}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Departments findByName(@PathParam("name") String name){
+    public Department findByName(@PathParam("name") String name){
         /* CRITERIA
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery cq = cb.createQuery();
-        Root<Departments> dept = cq.from(Departments.class);
+        Root<Departments> dept = cq.from(Department.class);
         cq.where(cb.equal(dept.get("departmentName"), "Administration"));
         cq.select(dept);
-        Departments department = (Departments) entityManager.createQuery(cq).getSingleResult();
+        Department department = (Department) entityManager.createQuery(cq).getSingleResult();
         return department;*/
         
         /* JPQL ESTATICO
-        TypedQuery<Departments> query = entityManager.createNamedQuery("Departments.findByDepartmentName", Departments.class);
+        TypedQuery<Departments> query = entityManager.createNamedQuery("Department.findByDepartmentName", Department.class);
         query.setParameter("departmentName", name);
-        Departments department = query.getSingleResult();
+        Department department = query.getSingleResult();
         return department;*/
         
       /* //JPQL DINAMICO
-        TypedQuery<Departments> query=entityManager.createQuery("SELECT d FROM Departments d WHERE d.departmentName LIKE :name", Departments.class);
+        TypedQuery<Departments> query=entityManager.createQuery("SELECT d FROM Department d WHERE d.departmentName LIKE :name", Department.class);
         query.setParameter("name", name);
-        Departments department = query.getSingleResult();
+        Department department = query.getSingleResult();
         return department;
     }*/
     
     @GET
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Departments findById(@PathParam("id") Integer id){
-        /*TypedQuery query = entityManager.createNamedQuery("Departments.findByDepartmentId", Departments.class);
+    public Department findById(@PathParam("id") Integer id){
+        /*TypedQuery query = entityManager.createNamedQuery("Department.findByDepartmentId", Department.class);
         query.setParameter("departmentId", id);
-        Departments department = (Departments) query.getSingleResult();*/
-        return entityManager.find(Departments.class, id);
+        Department department = (Department) query.getSingleResult();*/
+        return entityManager.find(Department.class, id);
       }
 
     
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public void createDepartment(Departments entity){
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response createDepartment(Department entity){
         entityManager.persist(entity);
+        entityManager.flush();
+        //return entity.getDepartmentId();
+        return Response.status(Status.CREATED).entity("{\"id\":" + entity.getDepartmentId().toString() + "}").build(); //retorna el id en formato json
     }
     
     @PUT
     @Path("{id}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public void editDepartment(@PathParam("id") Integer id, Departments entity){
+    public void editDepartment(@PathParam("id") Integer id, Department entity){
         entity.setDepartmentId(id);
         entityManager.merge(entity);
     }
     
     @DELETE
     @Path("{id}")
-    public Response deleteDepartment(@PathParam("id") Integer id){
-        Departments entity = entityManager.find(Departments.class, id);
-        if (entity == null) {
-            return Response.status(Response.Status.NOT_FOUND).entity
-        ("Entity not found for: " + id).build();
+    public void deleteDepartment(@PathParam("id") Integer id) throws EntityNotFoundException{
+        Department entity = entityManager.find(Department.class, id);
+        if(entity == null){//Lanza la excepcion 404 not found
+            //throw new WebApplicationException(Response.Status.NOT_FOUND);
+            throw new EntityNotFoundException("No se encuentra el departamento");
+
         }
         entityManager.remove(entity);
-        return Response.status(Response.Status.OK).build();
     }
 }
-
 
 

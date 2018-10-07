@@ -29,12 +29,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "departments")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Departments.findAll", query = "SELECT d FROM Departments d")
-    , @NamedQuery(name = "Departments.findByDepartmentId", query = "SELECT d FROM Departments d WHERE d.departmentId = :departmentId")
-    , @NamedQuery(name = "Departments.findByDepartmentName", query = "SELECT d FROM Departments d WHERE d.departmentName = :departmentName")
-    , @NamedQuery(name = "Departments.findByManagerId", query = "SELECT d FROM Departments d WHERE d.managerId = :managerId")
-    , @NamedQuery(name = "Departments.findByLocationId", query = "SELECT d FROM Departments d WHERE d.locationId = :locationId")})
-public class Departments implements Serializable {
+    @NamedQuery(name = "Department.findAll", query = "SELECT d FROM Department d")
+    , @NamedQuery(name = "Department.findByDepartmentId", query = "SELECT d FROM Department d WHERE d.departmentId = :departmentId")
+    , @NamedQuery(name = "Department.findByDepartmentName", query = "SELECT d FROM Department d WHERE d.departmentName = :departmentName")
+    , @NamedQuery(name = "Department.findByManagerId", query = "SELECT d FROM Department d WHERE d.managerId = :managerId")
+    , @NamedQuery(name = "Department.findByLocationId", query = "SELECT d FROM Department d WHERE d.locationId = :locationId")})
+public class Department implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -66,14 +66,14 @@ public class Departments implements Serializable {
     @Column(name = "location_id")
     private Integer locationId;
 
-    public Departments() {
+    public Department() {
     }
 
-    public Departments(Integer departmentId) {
+    public Department(Integer departmentId) {
         this.departmentId = departmentId;
     }
 
-    public Departments(Integer departmentId, String departmentName) {
+    public Department(Integer departmentId, String departmentName) {
         this.departmentId = departmentId;
         this.departmentName = departmentName;
     }
@@ -120,10 +120,10 @@ public class Departments implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Departments)) {
+        if (!(object instanceof Department)) {
             return false;
         }
-        Departments other = (Departments) object;
+        Department other = (Department) object;
         if ((this.departmentId == null && other.departmentId != null) || (this.departmentId != null && !this.departmentId.equals(other.departmentId))) {
             return false;
         }

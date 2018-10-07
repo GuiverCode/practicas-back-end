@@ -1,8 +1,16 @@
 com/guiver/webservice1/EmployeeService.class
 com/guiver/webservice1/model/Employee_.class
+<<<<<<< HEAD
 com/guiver/webservice1/model/Departments.class
 com/guiver/webservice1/model/Departments_.class
 com/guiver/webservice1/model/Employee.class
+=======
+com/guiver/webservice1/exceptions/DepartmentNotFoundException.class
+com/guiver/webservice1/model/Department_.class
+com/guiver/webservice1/model/Employee.class
+com/guiver/webservice1/model/Department.class
+>>>>>>> 62067f042693eb8adafa33e0f5ec2c0cba00059c
 com/guiver/webservice1/DepartmentService.class
+com/guiver/webservice1/exceptions/DepartmentNotFoundExceptionMapper.class
 com/guiver/webservice1/RestAppConfig.class
 com/guiver/webservice1/EmployeesDto.class

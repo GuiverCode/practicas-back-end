@@ -1,6 +1,6 @@
 package com.guiver.webservice1;
 
-import com.guiver.webservice1.model.Departments;
+import com.guiver.webservice1.model.Department;
 import com.guiver.webservice1.model.Employee;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -99,7 +99,7 @@ public class EmployeeService {
         newEmployee.setCommissionPct(employesDto.commissionPct);
         newEmployee.setPhoneNumber(employesDto.phoneNumber);
         newEmployee.setJobId(employesDto.jobId);
-        newEmployee.setDepartment(entityManager.find(Departments.class, employesDto.departmentId));
+        newEmployee.setDepartment(entityManager.find(Department.class, employesDto.departmentId));
         newEmployee.setManagerId(entityManager.find(Employee.class, employesDto.managerId));
         
         entityManager.persist(newEmployee);
