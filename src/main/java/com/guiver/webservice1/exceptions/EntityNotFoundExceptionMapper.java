@@ -5,6 +5,7 @@
  */
 package com.guiver.webservice1.exceptions;
 
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
@@ -19,7 +20,9 @@ public class EntityNotFoundExceptionMapper implements ExceptionMapper<EntityNotF
     //mapea la excepcion al Response
     @Override
     public Response toResponse(EntityNotFoundException exception) {
-        return Response.status(Response.Status.NOT_FOUND).entity(exception.getMessage()).build();
+        return Response.status(Response.Status.NOT_FOUND).entity("{\"message\" : " + "\""+ exception.getMessage() + "\"}")
+                .type(MediaType.APPLICATION_JSON)
+                .build();
     }
     
 }

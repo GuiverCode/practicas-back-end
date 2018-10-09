@@ -19,6 +19,9 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import com.guiver.webservice1.exceptions.EntityNotFoundException;
+import javax.validation.constraints.Min;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.Request;
 
 @Path("department")
 @Stateless
@@ -101,8 +104,7 @@ public class DepartmentService {
         Department entity = entityManager.find(Department.class, id);
         if(entity == null){//Lanza la excepcion 404 not found
             //throw new WebApplicationException(Response.Status.NOT_FOUND);
-            throw new EntityNotFoundException("No se encuentra el departamento");
-
+            throw new EntityNotFoundException("El departamento no existe o ya ha sido eliminado");
         }
         entityManager.remove(entity);
     }

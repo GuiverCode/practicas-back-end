@@ -33,7 +33,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Department.findByDepartmentId", query = "SELECT d FROM Department d WHERE d.departmentId = :departmentId")
     , @NamedQuery(name = "Department.findByDepartmentName", query = "SELECT d FROM Department d WHERE d.departmentName = :departmentName")
     , @NamedQuery(name = "Department.findByManagerId", query = "SELECT d FROM Department d WHERE d.managerId = :managerId")
-    , @NamedQuery(name = "Department.findByLocationId", query = "SELECT d FROM Department d WHERE d.locationId = :locationId")})
+    , @NamedQuery(name = "Department.findByLocationId", query = "SELECT d FROM Department d WHERE d.location.locationId = :locationId")})
 public class Department implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -51,20 +51,11 @@ public class Department implements Serializable {
     @Column(name = "manager_id")
     private Integer managerId;
     
-     /*@JoinColumn(name="manager_id", referencedColumnName = "employee_id")
-     @OneToOne(optional = false)
-     private Employee manager;
-
-    public Employee getManager() {
-        return manager;
-    }
-
-    public void setManager(Employee manager) {
-        this.manager = manager;
-    }*/
-    
-    @Column(name = "location_id")
-    private Integer locationId;
+    /*@Column(name = "location_id")
+    private Integer locationId;*/
+    @JoinColumn(name = "location_id", referencedColumnName = "location_id")
+    @OneToOne
+    private Location location;
 
     public Department() {
     }
@@ -102,14 +93,15 @@ public class Department implements Serializable {
         this.managerId = managerId;
     }
 
-    public Integer getLocationId() {
-        return locationId;
+    public Location getLocation() {
+        return location;
     }
 
-    public void setLocationId(Integer locationId) {
-        this.locationId = locationId;
+    public void setLocation(Location location) {
+        this.location = location;
     }
 
+    
     @Override
     public int hashCode() {
         int hash = 0;

@@ -22,6 +22,7 @@ public class RestAppConfig extends Application {
         resources.add(com.guiver.webservice1.DepartmentService.class);
         resources.add(com.guiver.webservice1.EmployeeService.class);
         resources.add(com.guiver.webservice1.exceptions.EntityNotFoundExceptionMapper.class);
+        resources.add(com.guiver.webservice1.exceptions.ConstraintViolationExceptionMapper.class);
         return resources;
     }
 }
