@@ -3,9 +3,12 @@ com/guiver/webservice1/model/Location.class
 com/guiver/webservice1/exceptions/ConstraintViolationExceptionMapper.class
 com/guiver/webservice1/exceptions/ConstraintViolationExceptionMapper$1.class
 com/guiver/webservice1/exceptions/EntityNotFoundException.class
+com/guiver/webservice1/AsyncResource.class
 com/guiver/webservice1/DepartmentService.class
+com/guiver/webservice1/AsyncResource$2.class
 com/guiver/webservice1/EmployeeService.class
 com/guiver/webservice1/exceptions/ValidationError.class
+com/guiver/webservice1/AsyncResource$1.class
 com/guiver/webservice1/model/Department_.class
 com/guiver/webservice1/model/Employee.class
 com/guiver/webservice1/model/Department.class

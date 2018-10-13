@@ -4,6 +4,7 @@
 /home/guille/Documentos/NetBeansWorkspace/practicas-back-end/src/main/java/com/guiver/webservice1/exceptions/EntityNotFoundException.java
 /home/guille/Documentos/NetBeansWorkspace/practicas-back-end/src/main/java/com/guiver/webservice1/exceptions/EntityNotFoundExceptionMapper.java
 /home/guille/Documentos/NetBeansWorkspace/practicas-back-end/src/main/java/com/guiver/webservice1/RestAppConfig.java
+/home/guille/Documentos/NetBeansWorkspace/practicas-back-end/src/main/java/com/guiver/webservice1/AsyncResource.java
 /home/guille/Documentos/NetBeansWorkspace/practicas-back-end/src/main/java/com/guiver/webservice1/exceptions/ValidationError.java
 /home/guille/Documentos/NetBeansWorkspace/practicas-back-end/src/main/java/com/guiver/webservice1/model/Employee.java
 /home/guille/Documentos/NetBeansWorkspace/practicas-back-end/src/main/java/com/guiver/webservice1/exceptions/ConstraintViolationExceptionMapper.java
