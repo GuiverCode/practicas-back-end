@@ -22,6 +22,8 @@ import com.guiver.webservice1.exceptions.EntityNotFoundException;
 import javax.validation.constraints.Min;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Request;
+import javax.ws.rs.core.UriBuilder;
+import javax.ws.rs.core.UriInfo;
 
 @Path("department")
 @Stateless
@@ -83,11 +85,17 @@ public class DepartmentService {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response createDepartment(Department entity){
+    public Response createDepartment(Department entity, @Context UriInfo uriInfo){
         entityManager.persist(entity);
         entityManager.flush();
+        int id = entity.getDepartmentId();
+        //envia en el header el path absoluto del nuevo recurso creado
+        UriBuilder builder = uriInfo.getAbsolutePathBuilder();
+        builder.path(Integer.toString(id));
+        return Response.created(builder.build()).build();   
+        //envia en el body(en formato json) el ID de la entidad creada
         //return entity.getDepartmentId();
-        return Response.status(Status.CREATED).entity("{\"id\":" + entity.getDepartmentId().toString() + "}").build(); //retorna el id en formato json
+        //return Response.status(Status.CREATED).entity("{\"id\":" + entity.getDepartmentId().toString() + "}").build(); //retorna el id en formato json
     }
     
     @PUT
