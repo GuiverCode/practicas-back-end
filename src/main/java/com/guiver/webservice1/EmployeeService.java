@@ -1,16 +1,15 @@
 package com.guiver.webservice1;
 
+import com.guiver.webservice1.exceptions.UniqueConstraintViolationException;
 import com.guiver.webservice1.model.Department;
 import com.guiver.webservice1.model.Employee;
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 import javax.ejb.Stateless;
-import javax.json.JsonObject;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaQuery;
@@ -86,10 +85,24 @@ public class EmployeeService {
         return employees;
     }
     
-    @POST
+    @POST //AGREGAR LOCATION HEADER
     @Consumes(MediaType.APPLICATION_JSON)
     public void createEmployee(EmployeesDto employesDto){
         Employee newEmployee = new Employee();
+        
+        //VERIFICA SI YA EXISTE EMAIL
+        TypedQuery<Employee> query=entityManager.createNamedQuery("Employee.findByEmail", Employee.class);
+        query.setParameter("email", employesDto.email);
+        Employee result1;
+        try {
+            result1 = query.getSingleResult();
+        } catch (NoResultException e) {
+            result1 = null;
+        }
+        
+        if(result1 != null){
+            throw new UniqueConstraintViolationException("{\"message\": \"Ya existe el email\"}");
+        }
         
         newEmployee.setEmail(employesDto.email);
         newEmployee.setFirstName(employesDto.firtsName);
@@ -103,7 +116,6 @@ public class EmployeeService {
         newEmployee.setManagerId(entityManager.find(Employee.class, employesDto.managerId));
         
         entityManager.persist(newEmployee);
-        
     }
 }
 

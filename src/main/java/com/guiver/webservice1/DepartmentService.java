@@ -19,6 +19,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import com.guiver.webservice1.exceptions.EntityNotFoundException;
+import com.guiver.webservice1.exceptions.EntityNotFoundWebAppException;
 import javax.validation.constraints.Min;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Request;
@@ -87,7 +88,7 @@ public class DepartmentService {
     @Produces(MediaType.APPLICATION_JSON)
     public Response createDepartment(Department entity, @Context UriInfo uriInfo){
         entityManager.persist(entity);
-        entityManager.flush();
+        entityManager.flush(); // fuerza la sincronizacion con la base de datos
         int id = entity.getDepartmentId();
         //envia en el header el path absoluto del nuevo recurso creado
         UriBuilder builder = uriInfo.getAbsolutePathBuilder();
@@ -108,12 +109,15 @@ public class DepartmentService {
     
     @DELETE
     @Path("{id}")
-    public void deleteDepartment(@PathParam("id") Integer id) throws EntityNotFoundException{
+    public void deleteDepartment(@PathParam("id") Integer id) /*throws EntityNotFoundException*/{
         Department entity = entityManager.find(Department.class, id);
         if(entity == null){//Lanza la excepcion 404 not found
             //throw new WebApplicationException(Response.Status.NOT_FOUND);
-            throw new EntityNotFoundException("El departamento no existe o ya ha sido eliminado");
-        }
+            //throw new EntityNotFoundException("El departamento no existe o ya ha sido eliminado");
+            
+            //no requiere la clausula throws en la firma del metodo ya que extiende de WebAppException
+            throw new EntityNotFoundWebAppException("{\"message\" : \"No se ecuentra el departamento\"}");
+        } 
         entityManager.remove(entity);
     }
 }
